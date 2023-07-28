@@ -6,7 +6,7 @@ This is a simple bot that listens for webhooks from Arc Update and posts them to
 1. Paste the webhook URL into a file called `TOKEN`
 
 ## Running
-Currently the project send only one message. To run it, use `python3 main.py`
+Run the project with `python main.py`. This will run the check every eight hours.
 
 ## Todo
-- [ ] Add a way to keep the bot running and send messages every duration of time
+- [x] Add a way to keep the bot running and send messages every duration of time
