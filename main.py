@@ -6,6 +6,15 @@ from time import sleep
 
 last_version = ""
 
+# read last version from file or create it if it doesn't exist
+
+try:
+    with open("last_version", "r") as f:
+        last_version = f.read().strip()
+except FileNotFoundError:
+    with open("last_version", "w") as f:
+        f.write("")
+
 def get_url_content(url):
     try:
         response = requests.get(url)
@@ -30,6 +39,11 @@ while True:
         pass
     else:
         last_version = latest.version_id
+        print(f"New version detected: {latest.version_number}")
+
+        with open("last_version", "w") as f:
+            f.write(last_version)
+
         messageText = message.BuildMessage(latest)
         webhook.SendWebhook(messageText)
 
