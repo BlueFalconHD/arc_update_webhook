@@ -2,6 +2,9 @@ import message
 import arc_update_utils
 import webhook
 import requests
+from time import sleep
+
+last_version = ""
 
 def get_url_content(url):
     try:
@@ -15,23 +18,23 @@ def get_url_content(url):
     else:
         return response.text
 
-def send_latest():
-    # get the raw update xml string from https://releases.arc.net/updates.xml
-    # use a web request to get the xml
+def get_items():
     xmlfile = get_url_content("https://releases.arc.net/updates.xml")
-
-    # parse the xml into a list of Item objects
     items = arc_update_utils.parse_xml(xmlfile)
 
-    # get the latest item
-    latest = items[0]
+    return items
 
-    # build the message
-    messageText = message.BuildMessage(latest)
+while True:
+    latest = get_items()[0]
+    if latest.version_id == last_version:
+        pass
+    else:
+        last_version = latest.version_id
+        messageText = message.BuildMessage(latest)
+        webhook.SendWebhook(messageText)
 
-    # send the message
-    webhook.SendWebhook(messageText)
+    # wait 8 hours
+    sleep(28800)
 
-send_latest()
 
-# TODO: Implement auto update checking every set duration
+# [x] TODO: Implement auto update checking every set duration
