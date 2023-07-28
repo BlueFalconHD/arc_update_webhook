@@ -12,7 +12,7 @@ def bold(title: str) -> str:
     return f"**{title}**"
 
 def link(text: str, url: str) -> str:
-    return f"[{text}]({url})"
+    return f"[{text}](<{url}>)"
 
 def h1(text: str) -> str:
     return f"# {text}"
